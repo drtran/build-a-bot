@@ -10,12 +10,22 @@
     </router-link>
     <button @click="selectPreviousPart()" class="prev-selector"></button>
     <button @click="selectNextPart()" class="next-selector"></button>
-    <span class="sale" v-show="selectedPart.onSale">Sale!</span>
+    <!-- hard-coded <span v-pin class="sale" v-show="selectedPart.onSale">Sale!</span> -->
+    <!-- meth 1: <span v-pin:position.top.right class="sale"
+      v-show="selectedPart.onSale">Sale!</span> -->
+    <!-- meth 2: <span v-pin="{ bottom: '5px', right: '5px'}"
+      class="sale" v-show="selectedPart.onSale">Sale!</span> -->
+    <span
+      @click="pinPadding='30px'"
+      v-pin="{ bottom: pinPadding, right: pinPadding}" class="sale"
+        v-show="selectedPart.onSale">
+        Sale
+      </span>
   </div>
 </template>
 
 <script>
-
+// import pinDirective from '../shared/pin-directive';
 
 function getPreviousValidIndex(index, length) {
   const deprecatedIndex = index - 1;
@@ -28,24 +38,30 @@ function getNextValidIndex(index, length) {
 }
 
 export default {
+  // directives: { pin: pinDirective },
   // Passing in parameters from caller ...
-  props:  {
+
+  props: {
     parts: {
       type: Array,
       rquired: true,
-    }, 
+    },
     position: {
       type: String,
       required: true,
+      // eslint-disable-next-line
       validator: function(value) {
-          return ['left', 'right', 'top', 'bottom', 'center'].includes(value);
+        return ['left', 'right', 'top', 'bottom', 'center'].includes(value);
       },
     },
   },
 
   // Data objects used by template
   data() {
-    return { selectedPartIndex: 0 };
+    return {
+      selectedPartIndex: 0,
+      pinPadding: '10px',
+    };
   },
 
   computed: {
@@ -94,9 +110,9 @@ export default {
   border: 3px solid #aaa;
 }
 .sale {
-  position: absolute;
+  /* position: absolute;
   bottom: 5px;
-  right: 5px;
+  right: 5px; */
   color: white;
   background-color: red;
   padding: 3px;
@@ -193,3 +209,4 @@ export default {
   border: 1px solid red;
 }
 </style>
+
