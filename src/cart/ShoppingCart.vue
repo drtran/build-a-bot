@@ -54,10 +54,10 @@ export default {
   name: 'Cart',
   computed: {
     cart() {
-      return this.$store.state.cart;
+      return this.$store.state.robots.cart;
     },
     cartSaleItems() {
-      return this.$store.getters.cartSaleItems;
+      return this.$store.getters['robots/cartSaleItems'];
     },
   },
 };
@@ -75,8 +75,8 @@ export default {
     text-align: right;
   }
   .saleItems {
-      margin-top: 50px;
-      font-size: 18px;
-      color: red;
+    margin-top: 50px;
+    font-size: 18px;
+    color: red;
   }
 </style>
